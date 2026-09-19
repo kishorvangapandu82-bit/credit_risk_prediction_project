@@ -1,0 +1,4 @@
+Model,Baseline_Features,Engineered_Features,Baseline_ROC_AUC,Engineered_ROC_AUC,AUC_Improvement,Recall_Class1,Precision_Class1,F1_Class1,Accuracy
+LightGBM (Engineered),10,18,0.8667,0.8652,-0.0015,0.7547,0.2238,0.3452,0.8086
+XGBoost (Engineered),10,18,0.8664,0.8654,-0.001,0.7613,0.2219,0.3436,0.8056
+Random Forest (Engineered),10,18,0.8639,0.8653,0.0014,0.75,0.2342,0.357,0.8194

@@ -1,0 +1,2 @@
+Model,Accuracy,Precision_Class1,Recall_Class1,F1_Class1,ROC_AUC
+MLP (Optuna),0.9363,0.5754,0.1802,0.2744,0.8339

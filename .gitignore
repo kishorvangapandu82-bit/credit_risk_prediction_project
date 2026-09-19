@@ -1,0 +1,21 @@
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+*.ipynb_checkpoints
+
+# Environment and IDE
+.venv/
+env/
+venv/
+.idea/
+.vscode/
+*.swp
+*~
+
+# Operating System
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store

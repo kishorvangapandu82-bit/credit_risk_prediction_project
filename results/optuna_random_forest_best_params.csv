@@ -1,0 +1,2 @@
+n_estimators,max_depth,min_samples_split,min_samples_leaf,max_features,cv_auc_5fold
+300,11,91,29,sqrt,0.8637401252902478

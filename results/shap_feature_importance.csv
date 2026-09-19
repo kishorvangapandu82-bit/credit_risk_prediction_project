@@ -1,0 +1,11 @@
+Feature,Mean_Abs_SHAP
+RevolvingUtilizationOfUnsecuredLines,0.82470286
+NumberOfTime30-59DaysPastDueNotWorse,0.3626687
+NumberOfTimes90DaysLate,0.32310736
+age,0.23215455
+NumberOfTime60-89DaysPastDueNotWorse,0.17956637
+NumberOfOpenCreditLinesAndLoans,0.1622478
+DebtRatio,0.12971692
+MonthlyIncome,0.111328274
+NumberRealEstateLoansOrLines,0.10087482
+NumberOfDependents,0.018588038

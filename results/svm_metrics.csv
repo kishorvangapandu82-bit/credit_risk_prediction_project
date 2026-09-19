@@ -1,0 +1,2 @@
+Model,Accuracy,Precision_Class1,Recall_Class1,F1_Class1,ROC_AUC
+Support Vector Machine,0.9363,0.5902,0.1523,0.2421,0.8205

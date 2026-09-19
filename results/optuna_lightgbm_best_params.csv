@@ -1,0 +1,2 @@
+learning_rate,num_leaves,n_estimators,subsample,colsample_bytree,min_child_samples,reg_alpha,reg_lambda,cv_auc_5fold
+0.045323689975128985,14,200,0.9208300472002379,0.5592921102878801,41,2.019512089428736,7.822793754820778,0.8654266574059217

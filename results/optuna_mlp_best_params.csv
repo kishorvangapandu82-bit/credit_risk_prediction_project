@@ -1,0 +1,2 @@
+n_layers,n_units_l0,n_units_l1,n_units_l2,activation,alpha,lr_init,cv_auc_5fold
+3,100,31,40,relu,0.0014688569785856129,0.006013327460589399,0.8324546784099134

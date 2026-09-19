@@ -1,0 +1,2 @@
+Model,Accuracy,Precision_Class1,Recall_Class1,F1_Class1,ROC_AUC
+MLP Neural Network,0.8129,0.2205,0.7098,0.3365,0.8376

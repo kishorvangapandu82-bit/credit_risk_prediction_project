@@ -1,0 +1,2 @@
+Model,Accuracy,Precision_Class1,Recall_Class1,F1_Class1,ROC_AUC
+Decision Tree,0.8131,0.2251,0.7354,0.3447,0.8437

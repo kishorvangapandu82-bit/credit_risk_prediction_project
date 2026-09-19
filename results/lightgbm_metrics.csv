@@ -1,0 +1,2 @@
+Model,Accuracy,Precision_Class1,Recall_Class1,F1_Class1,ROC_AUC
+LightGBM,0.7912,0.2126,0.7852,0.3346,0.8667

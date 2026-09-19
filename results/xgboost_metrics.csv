@@ -1,0 +1,2 @@
+Model,Accuracy,Precision_Class1,Recall_Class1,F1_Class1,ROC_AUC
+XGBoost,0.7953,0.2149,0.7773,0.3367,0.8664
