@@ -143,27 +143,32 @@ if page == "💳 Real-Time Credit Underwriting":
             real_estate_lines = st.number_input("Number of Real Estate / Mortgage Lines", min_value=0, max_value=20, value=1, step=1)
             
         with col3:
-            past_due_30_59 = st.number_input("Times 30-59 Days Past Due (2 Yrs)", min_value=0, max_value=20, value=0, step=1)
-            past_due_60_89 = st.number_input("Times 60-89 Days Past Due (2 Yrs)", min_value=0, max_value=20, value=0, step=1)
-            past_due_90 = st.number_input("Times 90+ Days Past Due (2 Yrs)", min_value=0, max_value=20, value=0, step=1)
-            dependents = st.number_input("Number of Family Dependents", min_value=0, max_value=20, value=1, step=1)
+            past_due_30_59 = st.number_input("Times 30-59 Days Past Due (2 Yrs)", min_value=0, max_value=100, value=0, step=1, help="Count of 30-59 days late (Values >= 96 treated as missing artifact codes)")
+            past_due_60_89 = st.number_input("Times 60-89 Days Past Due (2 Yrs)", min_value=0, max_value=100, value=0, step=1, help="Count of 60-89 days late (Values >= 96 treated as missing artifact codes)")
+            past_due_90 = st.number_input("Times 90+ Days Past Due (2 Yrs)", min_value=0, max_value=100, value=0, step=1, help="Count of 90+ days late (Values >= 96 treated as missing artifact codes)")
+            dependents = st.number_input("Number of Family Dependents", min_value=0, max_value=50, value=1, step=1)
 
         submit_btn = st.form_submit_button("⚡ Evaluate Credit Application")
 
     if submit_btn or "evaluated" not in st.session_state:
         st.session_state["evaluated"] = True
         
+        # Clean institutional artifacts (codes 96 & 98 representing un-contactable records)
+        clean_30_59 = np.nan if past_due_30_59 >= 96 else past_due_30_59
+        clean_60_89 = np.nan if past_due_60_89 >= 96 else past_due_60_89
+        clean_90 = np.nan if past_due_90 >= 96 else past_due_90
+
         # Prepare input dataframe
         input_data = pd.DataFrame([{
             'RevolvingUtilizationOfUnsecuredLines': revolving_util,
             'age': age,
-            'NumberOfTime30-59DaysPastDueNotWorse': past_due_30_59,
+            'NumberOfTime30-59DaysPastDueNotWorse': clean_30_59,
             'DebtRatio': debt_ratio,
             'MonthlyIncome': monthly_income,
             'NumberOfOpenCreditLinesAndLoans': open_credit_lines,
-            'NumberOfTimes90DaysLate': past_due_90,
+            'NumberOfTimes90DaysLate': clean_90,
             'NumberRealEstateLoansOrLines': real_estate_lines,
-            'NumberOfTime60-89DaysPastDueNotWorse': past_due_60_89,
+            'NumberOfTime60-89DaysPastDueNotWorse': clean_60_89,
             'NumberOfDependents': dependents
         }])
 
