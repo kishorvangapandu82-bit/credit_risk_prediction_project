@@ -181,6 +181,9 @@ if page == "💳 Real-Time Credit Underwriting":
         st.markdown("---")
         st.markdown("### 📊 Automated Credit Decision & Risk Assessment")
 
+        # Determine approval status
+        is_approved = pd_prob < approval_threshold
+
         # Risk Classification Status Label
         risk_status_label = "Low Risk (Approved)" if is_approved else "High Risk (Rejected)"
         risk_color = "#065F46" if is_approved else "#991B1B"
