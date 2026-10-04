@@ -181,12 +181,16 @@ if page == "💳 Real-Time Credit Underwriting":
         st.markdown("---")
         st.markdown("### 📊 Automated Credit Decision & Risk Assessment")
 
-        res_col1, res_col2, res_col3, res_col4 = st.columns(4)
+        # Risk Classification Status Label
+        risk_status_label = "Low Risk (Approved)" if is_approved else "High Risk (Rejected)"
+        risk_color = "#065F46" if is_approved else "#991B1B"
+
+        res_col1, res_col2, res_col3, res_col4 = st.columns([1.2, 1.2, 1.3, 1.5])
 
         with res_col1:
             st.metric(label="Probability of Default (PD)", value=f"{pd_prob*100:.2f}%")
         with res_col2:
-            st.metric(label="Estimated Credit Rating", value=f"{credit_score} / 850")
+            st.metric(label="Credit Rating Score", value=f"{credit_score} / 850")
         with res_col3:
             if pd_prob <= 0.05:
                 risk_tier = "Prime (Tier 1)"
@@ -198,11 +202,11 @@ if page == "💳 Real-Time Credit Underwriting":
                 risk_tier = "Deep Subprime (Tier 4)"
             st.metric(label="Basel Risk Tier", value=risk_tier)
         with res_col4:
-            is_approved = pd_prob < approval_threshold
+            st.markdown(f"**Overall Assessment**")
             if is_approved:
-                st.markdown("<br><div class='approved-badge'>✅ CREDIT APPROVED</div>", unsafe_allow_html=True)
+                st.markdown("<div class='approved-badge'>✅ LOW RISK / APPROVED</div>", unsafe_allow_html=True)
             else:
-                st.markdown("<br><div class='rejected-badge'>❌ HIGH RISK REJECTION</div>", unsafe_allow_html=True)
+                st.markdown("<div class='rejected-badge'>❌ HIGH RISK / REJECTED</div>", unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
 
