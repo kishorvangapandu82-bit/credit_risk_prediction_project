@@ -1,0 +1,36 @@
+Scenario,Model,Baseline_AUC,Stressed_AUC,AUC_Retention_%,Baseline_Mean_Pred_Prob,Stressed_Mean_Pred_Prob,Pct_Change_Mean_Pred_Probability,Threshold_Used,Baseline_Pred_Default_Share,Stressed_Pred_Default_Share,Pct_Change_Pred_Default_Share
+(a) Income -20% (Recomputed DebtRatio +25%),LightGBM,0.8667,0.866,99.914,0.3195,0.3315,3.76,0.76,0.091,0.0935,2.73
+(a) Income -20% (Recomputed DebtRatio +25%),XGBoost,0.8664,0.866,99.95,0.3219,0.3331,3.51,0.79,0.077,0.081,5.14
+(a) Income -20% (Recomputed DebtRatio +25%),Random Forest,0.8639,0.8634,99.936,0.3181,0.3273,2.88,0.73,0.0893,0.0916,2.64
+(a) Income -20% (Recomputed DebtRatio +25%),Decision Tree,0.8437,0.8438,100.006,0.3311,0.331,-0.01,0.79,0.0817,0.0821,0.41
+(a) Income -20% (Recomputed DebtRatio +25%),MLP,0.8376,0.8372,99.959,0.3378,0.3491,3.35,0.23,0.5968,0.6292,5.43
+(a) Income -20% (Recomputed DebtRatio +25%),Logistic Regression,0.8227,0.8221,99.928,0.3751,0.3784,0.88,0.66,0.0849,0.0856,0.86
+(a) Income -20% (Recomputed DebtRatio +25%),SVM,0.8205,0.8198,99.913,0.0665,0.0673,1.22,0.12,0.077,0.0779,1.21
+(a*) Income -20% (Quirk-Aware: non-null only),LightGBM,0.8667,0.866,99.915,0.3195,0.3318,3.86,0.76,0.091,0.0936,2.86
+(a*) Income -20% (Quirk-Aware: non-null only),XGBoost,0.8664,0.866,99.95,0.3219,0.3337,3.67,0.79,0.077,0.0811,5.34
+(a*) Income -20% (Quirk-Aware: non-null only),Random Forest,0.8639,0.8635,99.946,0.3181,0.3273,2.89,0.73,0.0893,0.092,3.09
+(a*) Income -20% (Quirk-Aware: non-null only),Decision Tree,0.8437,0.8438,100.013,0.3311,0.3311,0.02,0.79,0.0817,0.0821,0.46
+(a*) Income -20% (Quirk-Aware: non-null only),MLP,0.8376,0.8374,99.982,0.3378,0.3484,3.15,0.23,0.5968,0.6268,5.02
+(a*) Income -20% (Quirk-Aware: non-null only),Logistic Regression,0.8227,0.8224,99.958,0.3751,0.3791,1.07,0.66,0.0849,0.0858,1.1
+(a*) Income -20% (Quirk-Aware: non-null only),SVM,0.8205,0.8201,99.953,0.0665,0.0674,1.47,0.12,0.077,0.0782,1.59
+(b) DebtRatio +25% Only (Constant Income),LightGBM,0.8667,0.8662,99.934,0.3195,0.3267,2.26,0.76,0.091,0.0922,1.27
+(b) DebtRatio +25% Only (Constant Income),XGBoost,0.8664,0.8662,99.969,0.3219,0.328,1.92,0.79,0.077,0.0794,3.06
+(b) DebtRatio +25% Only (Constant Income),Random Forest,0.8639,0.8635,99.946,0.3181,0.3236,1.73,0.73,0.0893,0.0902,1.07
+(b) DebtRatio +25% Only (Constant Income),Decision Tree,0.8437,0.8437,99.994,0.3311,0.3309,-0.03,0.79,0.0817,0.0817,-0.05
+(b) DebtRatio +25% Only (Constant Income),MLP,0.8376,0.8373,99.966,0.3378,0.3384,0.2,0.23,0.5968,0.5991,0.38
+(b) DebtRatio +25% Only (Constant Income),Logistic Regression,0.8227,0.8225,99.974,0.3751,0.3743,-0.21,0.66,0.0849,0.0847,-0.24
+(b) DebtRatio +25% Only (Constant Income),SVM,0.8205,0.8202,99.961,0.0665,0.0663,-0.27,0.12,0.077,0.0766,-0.43
+(c) Original Combined (-20% Inc & +25% Debt),LightGBM,0.8667,0.866,99.914,0.3195,0.3315,3.76,0.76,0.091,0.0935,2.73
+(c) Original Combined (-20% Inc & +25% Debt),XGBoost,0.8664,0.866,99.95,0.3219,0.3331,3.51,0.79,0.077,0.081,5.14
+(c) Original Combined (-20% Inc & +25% Debt),Random Forest,0.8639,0.8634,99.936,0.3181,0.3273,2.88,0.73,0.0893,0.0916,2.64
+(c) Original Combined (-20% Inc & +25% Debt),Decision Tree,0.8437,0.8438,100.006,0.3311,0.331,-0.01,0.79,0.0817,0.0821,0.41
+(c) Original Combined (-20% Inc & +25% Debt),MLP,0.8376,0.8372,99.959,0.3378,0.3491,3.35,0.23,0.5968,0.6292,5.43
+(c) Original Combined (-20% Inc & +25% Debt),Logistic Regression,0.8227,0.8221,99.928,0.3751,0.3784,0.88,0.66,0.0849,0.0856,0.86
+(c) Original Combined (-20% Inc & +25% Debt),SVM,0.8205,0.8198,99.913,0.0665,0.0673,1.22,0.12,0.077,0.0779,1.21
+(e) Targeted Shock (-20% Inc to Bottom 30%),LightGBM,0.8667,0.8667,99.994,0.3195,0.3208,0.4,0.76,0.091,0.0915,0.46
+(e) Targeted Shock (-20% Inc to Bottom 30%),XGBoost,0.8664,0.8664,99.991,0.3219,0.323,0.35,0.79,0.077,0.0775,0.61
+(e) Targeted Shock (-20% Inc to Bottom 30%),Random Forest,0.8639,0.8638,99.988,0.3181,0.3188,0.19,0.73,0.0893,0.0891,-0.2
+(e) Targeted Shock (-20% Inc to Bottom 30%),Decision Tree,0.8437,0.8438,100.007,0.3311,0.331,-0.02,0.79,0.0817,0.0817,-0.05
+(e) Targeted Shock (-20% Inc to Bottom 30%),MLP,0.8376,0.8377,100.008,0.3378,0.3394,0.48,0.23,0.5968,0.6001,0.55
+(e) Targeted Shock (-20% Inc to Bottom 30%),Logistic Regression,0.8227,0.8228,100.014,0.3751,0.3755,0.1,0.66,0.0849,0.085,0.1
+(e) Targeted Shock (-20% Inc to Bottom 30%),SVM,0.8205,0.8206,100.011,0.0665,0.0666,0.18,0.12,0.077,0.0772,0.35

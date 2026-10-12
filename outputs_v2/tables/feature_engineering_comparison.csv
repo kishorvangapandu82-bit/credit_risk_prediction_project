@@ -1,0 +1,4 @@
+Model,Features_10_AUC,Features_18_AUC,Delta_AUC,Delta_AUC_95_CI,Bootstrap_p_value,Features_10_F1,Features_18_F1,Features_10_Precision,Features_18_Precision,Features_10_Recall,Features_18_Recall,Features_10_Accuracy,Features_18_Accuracy
+Random Forest,0.8639,0.8637,-0.0003,"[-0.0009, 0.0004]",0.366,0.3393,0.3485,0.2179,0.2267,0.7656,0.753,0.8007,0.8118
+XGBoost,0.8664,0.8657,-0.0008,"[-0.0018, 0.0001]",0.106,0.3367,0.3403,0.2149,0.2182,0.7773,0.7729,0.7953,0.7997
+LightGBM,0.8667,0.8649,-0.0019,"[-0.0030, -0.0008]",0.001,0.3346,0.3432,0.2126,0.2212,0.7852,0.765,0.7912,0.8043

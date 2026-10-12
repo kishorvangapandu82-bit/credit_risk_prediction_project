@@ -4,10 +4,16 @@ PHASE 10B -- MACROECONOMIC STRESS TESTING
 =============================================================================
 Project : GMSC Credit Scoring Research
 File    : src/stress_testing.py
-Purpose : Subject all 4 trained models to a simulated macroeconomic shock:
-          - MonthlyIncome falls by 20% (STRESS_INCOME_FACTOR = 0.80)
-          - DebtRatio rises by 25%     (STRESS_DEBTRATIO_FACTOR = 1.25)
-          
+Purpose : Subject all trained models to a simulated instantaneous macroeconomic shock:
+          - Single static exogenous shock: Gross MonthlyIncome falls by 20%
+            (STRESS_INCOME_FACTOR = 0.80)
+          - Endogenous DebtRatio recomputation: Under sticky/constant nominal debt
+            obligations (MonthlyDebt_stressed = MonthlyDebt_base), the ratio
+            DebtRatio = MonthlyDebt / MonthlyIncome mechanically scales by
+            1 / 0.80 = 1.25 (+25% increase).
+          - Compounding check: Total nominal debt burden is strictly preserved
+            (0.80 * 1.25 = 1.00), preventing uncalibrated double-shock stacking.
+
 Assess:
   1. Model ranking stability under covariate shift
   2. ROC-AUC degradation / robustness
@@ -36,7 +42,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from sklearn.metrics import roc_auc_score, recall_score, precision_score, f1_score
 from config import (
     MODEL_DIR, RESULT_DIR, PLOT_DIR,
-    STRESS_INCOME_FACTOR, STRESS_DEBTRATIO_FACTOR
+    STRESS_INCOME_FACTOR, STRESS_DEBTRATIO_FACTOR, STRESS_NOMINAL_DEBT_FACTOR
 )
 from data_preprocessing import load_data, clean_data, split_data
 
@@ -56,19 +62,30 @@ def run_stress_test():
     print("=" * 65)
     print("PHASE 10B -- MACROECONOMIC STRESS TESTING")
     print("=" * 65)
-    print(f"\n  Macroeconomic Shock Parameters:")
-    print(f"    - MonthlyIncome factor  : {STRESS_INCOME_FACTOR:.2f} (-20% income reduction)")
-    print(f"    - DebtRatio factor      : {STRESS_DEBTRATIO_FACTOR:.2f} (+25% debt service increase)")
+    print(f"\n  Macroeconomic Shock Parameters (Static Single Shock):")
+    print(f"    - Exogenous MonthlyIncome shock factor : {STRESS_INCOME_FACTOR:.2f} (-20.0% static cut)")
+    print(f"    - Nominal debt obligation multiplier   : {STRESS_NOMINAL_DEBT_FACTOR:.2f} (sticky/constant debt)")
+    print(f"    - Mechanically Recomputed DebtRatio    : {STRESS_DEBTRATIO_FACTOR:.2f} (+25.0% = 1 / {STRESS_INCOME_FACTOR:.2f})")
+    print(f"    - Mathematical Compound Check          : {STRESS_INCOME_FACTOR * STRESS_DEBTRATIO_FACTOR:.4f}x nominal debt (strictly preserved)")
 
     # 1. Load data
     df_raw = load_data()
     df_clean, _ = clean_data(df_raw, verbose=False)
     _, X_test_base, _, y_test = split_data(df_clean)
 
-    # 2. Create stressed test dataset
+    # 2. Create stressed test dataset via exact recomputation:
+    # Exogenous Shock:
+    #   MonthlyIncome_stressed = MonthlyIncome_base * STRESS_INCOME_FACTOR (0.80)
+    #
+    # Endogenous Recomputation:
+    #   DebtRatio = MonthlyDebt / MonthlyIncome
+    #   Under sticky/constant nominal monthly debt payments:
+    #   DebtRatio_stressed = MonthlyDebt / (MonthlyIncome * 0.80)
+    #                      = (MonthlyDebt / MonthlyIncome) * (1 / 0.80)
+    #                      = DebtRatio_base * 1.25 (+25%)
     X_test_stressed = X_test_base.copy()
     X_test_stressed["MonthlyIncome"] = X_test_stressed["MonthlyIncome"] * STRESS_INCOME_FACTOR
-    X_test_stressed["DebtRatio"]     = X_test_stressed["DebtRatio"] * STRESS_DEBTRATIO_FACTOR
+    X_test_stressed["DebtRatio"]     = X_test_stressed["DebtRatio"] * (STRESS_NOMINAL_DEBT_FACTOR / STRESS_INCOME_FACTOR)
 
     print(f"\n  Baseline Test Set Shape : {X_test_base.shape}")
     print(f"  Stressed Test Set Shape : {X_test_stressed.shape}")
@@ -185,7 +202,7 @@ def run_stress_test():
         ax2.annotate(f"+{h:.1f}%", (rect.get_x() + rect.get_width()/2., h),
                      ha="center", va="bottom", fontsize=9.5, fontweight="bold", xytext=(0, 3), textcoords="offset points")
 
-    plt.suptitle("Macroeconomic Stress Testing Analysis (-20% Income, +25% DebtRatio)", fontsize=15, fontweight="bold", y=1.00)
+    plt.suptitle("Macroeconomic Stress Testing Analysis (-20% Static Income Shock -> Recomputed +25% DebtRatio)", fontsize=14, fontweight="bold", y=1.00)
     plt.tight_layout()
 
     out_plot = os.path.join(PLOT_DIR, "stress_test_impact.png")

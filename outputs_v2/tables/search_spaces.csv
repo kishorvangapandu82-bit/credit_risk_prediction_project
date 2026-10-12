@@ -1,0 +1,35 @@
+Model,Tuning_Protocol,Hyperparameter,Type,Range_or_Values
+XGBoost,"Optuna TPE (50 trials, 5-fold CV AUC)",learning_rate,float (log),"[0.01, 0.20]"
+XGBoost,Optuna TPE,max_depth,int,"[3, 8]"
+XGBoost,Optuna TPE,n_estimators,int,"[100, 400]"
+XGBoost,Optuna TPE,subsample,float,"[0.60, 1.00]"
+XGBoost,Optuna TPE,colsample_bytree,float,"[0.50, 1.00]"
+XGBoost,Optuna TPE,gamma,float,"[0.00, 1.00]"
+XGBoost,Optuna TPE,reg_alpha,float (log),"[1e-3, 10.0]"
+XGBoost,Optuna TPE,reg_lambda,float (log),"[1e-3, 10.0]"
+XGBoost,Optuna TPE,scale_pos_weight,constant,13.96
+LightGBM,Optuna TPE,learning_rate,float (log),"[0.01, 0.20]"
+LightGBM,Optuna TPE,num_leaves,int,"[15, 127]"
+LightGBM,Optuna TPE,n_estimators,int,"[100, 400]"
+LightGBM,Optuna TPE,min_child_samples,int,"[10, 100]"
+LightGBM,Optuna TPE,reg_alpha,float (log),"[1e-3, 10.0]"
+LightGBM,Optuna TPE,reg_lambda,float (log),"[1e-3, 10.0]"
+LightGBM,Optuna TPE,scale_pos_weight,constant,13.96
+Random Forest,Optuna TPE,n_estimators,int,"[100, 300]"
+Random Forest,Optuna TPE,max_depth,int,"[6, 20]"
+Random Forest,Optuna TPE,min_samples_split,int,"[10, 100]"
+Random Forest,Optuna TPE,min_samples_leaf,int,"[5, 50]"
+Random Forest,Optuna TPE,max_features,categorical,"{sqrt, log2}"
+Random Forest,Optuna TPE,class_weight,constant,balanced
+Decision Tree,Optuna TPE,max_depth,int,"[3, 12]"
+Decision Tree,Optuna TPE,min_samples_split,int,"[10, 100]"
+Decision Tree,Optuna TPE,min_samples_leaf,int,"[5, 50]"
+Decision Tree,Optuna TPE,criterion,categorical,"{gini, entropy}"
+Decision Tree,Optuna TPE,class_weight,constant,balanced
+Logistic Regression,Optuna TPE,C,float (log),"[1e-4, 10.0]"
+Logistic Regression,Optuna TPE,class_weight,constant,balanced
+Linear SVM,Optuna TPE,C,float (log),"[1e-4, 10.0]"
+Linear SVM,Optuna TPE,class_weight,constant,balanced
+MLP,Optuna TPE,alpha,float (log),"[1e-4, 1e-1]"
+MLP,Optuna TPE,learning_rate_init,float (log),"[1e-4, 1e-2]"
+MLP,Optuna TPE,hidden_layer_sizes,categorical,"{(64, 32), (128, 64), (64,), (100,)}"

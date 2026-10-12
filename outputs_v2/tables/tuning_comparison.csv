@@ -1,0 +1,4 @@
+Model,Grid_CV_AUC,Grid_Test_AUC,Optuna_CV_AUC,Optuna_Test_AUC,Optuna_Delta_Test_AUC
+XGBoost,0.8643,0.8661,0.8653,0.8669,0.0008
+LightGBM,0.8649,0.867,0.8656,0.8671,0.0001
+Random Forest,0.8626,0.8642,0.8636,0.8653,0.0011

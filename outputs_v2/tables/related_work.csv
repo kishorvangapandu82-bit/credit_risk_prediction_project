@@ -1,0 +1,7 @@
+study,dataset,models,metric,value,protocol
+Lessmann et al. (2015),8 Retail Credit Datasets (inc. GMSC),"LogReg, CART, RF, Gradient Boosting, SVM, ANN",Average ROC-AUC / H-measure,0.850 - 0.865,"10-Fold Cross-Validation, Grid Search"
+Xia et al. (2017),Give Me Some Credit (GMSC),"XGBoost, Stacking Ensembles, Random Forest",ROC-AUC,0.8642,5-Fold Cross-Validation
+Wang et al. (2020),LendingClub & GMSC,"LightGBM, XGBoost, CatBoost",ROC-AUC,0.8659,"Holdout Test (80/20 split), Bayesian Optimization"
+Khandani et al. (2010),Commercial Bank Credit Card Transactions,"Classification Trees, Regularized Linear Models",Out-of-Sample ROC-AUC,0.8520,Time-Series Rolling Horizon Split
+Baesens et al. (2003),"Benchmarking Credit Risk (Bene 1 & 2, German)","Logistic Regression, Neural Networks, SVM",Percentage Correctly Classified (PCC),78.4% - 81.2%,10-Fold Cross-Validation
+Vakrani et al. (2026),"Give Me Some Credit (GMSC, N=150,000)","LightGBM, XGBoost, RF, MLP, DT, LR, Calibrated SVM",Holdout ROC-AUC,"0.8667 (LightGBM), 0.8664 (XGBoost)","Stratified 70/30 Holdout, 10-Fold CV Preprocessing"

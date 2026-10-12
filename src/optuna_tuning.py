@@ -301,62 +301,53 @@ def run_optuna_tuning():
                    build_rf, X_train, X_test, y_train, y_test)
     all_results.append(r)
 
-    # ------------------------------------------------------------------ MLP
-    def build_mlp(p):
-        p = dict(p)  # copy so we can mutate safely
-        n_layers = p.pop("n_layers")
-        # Reconstruct hidden_layer_sizes tuple from per-layer params
-        hidden = tuple(p.pop(f"n_units_l{i}") for i in range(n_layers))
-        activation = p.pop("activation")
-        alpha      = p.pop("alpha")
-        lr_init    = p.pop("lr_init")
-        return Pipeline([("pre", build_preprocessing_pipeline()),
-                         ("clf", MLPClassifier(
-                             hidden_layer_sizes=hidden,
-                             activation=activation,
-                             alpha=alpha,
-                             learning_rate_init=lr_init,
-                             max_iter=100,
-                             early_stopping=True,
-                             validation_fraction=0.10,
-                             n_iter_no_change=10,
-                             random_state=RANDOM_STATE))])
-
-    r = tune_model("MLP", lambda t: mlp_objective(t, X_train, y_train),
-                   build_mlp, X_train, X_test, y_train, y_test)
-    all_results.append(r)
-
-    # ------------------------------------------------------------------ Summary
+    # ------------------------------------------------------------------ Summary & Comparison
     print(f"\n{'='*65}")
-    print(f"OPTUNA TUNING COMPLETE -- ALL 4 AI MODELS")
+    print(f"OPTUNA TUNING COMPLETE -- TOP AI ENSEMBLE MODELS")
     print(f"{'='*65}")
     print(f"\n  {'Model':<28} {'Test ROC-AUC':>12} {'Recall':>8} {'Precision':>10} {'F1':>8}")
     print(f"  {'-'*68}")
 
     # Baseline (original GridSearch results)
     baselines = [
-        ("XGBoost (GridSearch)",       "xgboost_metrics.csv"),
-        ("LightGBM (GridSearch)",      "lightgbm_metrics.csv"),
-        ("Random Forest (GridSearch)", "random_forest_metrics.csv"),
-        ("MLP (GridSearch)",           "mlp_metrics.csv"),
+        ("LightGBM",      "lightgbm_metrics.csv"),
+        ("XGBoost",       "xgboost_metrics.csv"),
+        ("Random Forest", "random_forest_metrics.csv"),
     ]
-    for label, fname in baselines:
-        fp = os.path.join(RESULT_DIR, fname)
-        if os.path.exists(fp):
-            row = pd.read_csv(fp).iloc[0]
-            print(f"  {label:<28} {row['ROC_AUC']:>12.4f} {row['Recall_Class1']:>8.4f} "
-                  f"{row['Precision_Class1']:>10.4f} {row['F1_Class1']:>8.4f}")
-
-    print(f"  {'─'*68}")
-    for r in all_results:
-        print(f"  {r['Model']:<28} {r['ROC_AUC']:>12.4f} {r['Recall_Class1']:>8.4f} "
-              f"{r['Precision_Class1']:>10.4f} {r['F1_Class1']:>8.4f}")
 
     save_results_table(all_results, os.path.join(RESULT_DIR, "optuna_all_results.csv"))
 
-    print(f"\n  Results CSV : results/optuna_all_results.csv")
-    print(f"  Models saved: models/*_optuna.joblib")
-    print(f"  Plots saved : plots/optuna_*_history.png")
+    comparison_records = []
+    for label, fname in baselines:
+        fp = os.path.join(RESULT_DIR, fname)
+        if os.path.exists(fp):
+            b_row = pd.read_csv(fp).iloc[0]
+            # Match in all_results
+            o_row = next((r for r in all_results if label.lower() in r["Model"].lower()), None)
+            if o_row:
+                gain = o_row["ROC_AUC"] - b_row["ROC_AUC"]
+                comparison_records.append({
+                    "Model": label,
+                    "GridSearch_ROC_AUC": round(float(b_row["ROC_AUC"]), 4),
+                    "Bayesian_ROC_AUC": round(float(o_row["ROC_AUC"]), 4),
+                    "AUC_Gain": round(float(gain), 4),
+                    "GridSearch_Recall": round(float(b_row["Recall_Class1"]), 4),
+                    "Bayesian_Recall": round(float(o_row["Recall_Class1"]), 4),
+                    "GridSearch_F1": round(float(b_row["F1_Class1"]), 4),
+                    "Bayesian_F1": round(float(o_row["F1_Class1"]), 4),
+                    "GridSearch_Accuracy": round(float(b_row["Accuracy"]), 4),
+                    "Bayesian_Accuracy": round(float(o_row["Accuracy"]), 4),
+                    "Winner": "Bayesian Optimization" if gain > 0 else "Grid Search"
+                })
+                print(f"  {label:<28} Base: {b_row['ROC_AUC']:.4f} -> Optuna: {o_row['ROC_AUC']:.4f} (Gain: {gain:+.4f})")
+
+    comp_df = pd.DataFrame(comparison_records)
+    comp_df.to_csv(os.path.join(RESULT_DIR, "grid_search_vs_bayesian_comparison.csv"), index=False)
+
+    print(f"\n  Results CSV    : results/optuna_all_results.csv")
+    print(f"  Comparison CSV : results/grid_search_vs_bayesian_comparison.csv")
+    print(f"  Models saved   : models/*_optuna.joblib")
+    print(f"  Plots saved    : plots/optuna_*_history.png")
     print(f"{'='*65}")
 
     return all_results

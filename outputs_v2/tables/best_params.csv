@@ -1,0 +1,8 @@
+Model,Best_CV_AUC,Test_AUC,Best_Hyperparameters
+XGBoost,0.8653,0.8669,"{'learning_rate': 0.03179049771163903, 'max_depth': 4, 'n_estimators': 350, 'subsample': 0.9482387762278873, 'colsample_bytree': 0.5666819122957921, 'gamma': 0.8038534866683684, 'reg_alpha': 0.004445403967360062, 'reg_lambda': 4.271903083597981, 'scale_pos_weight': 13.961527500712453}"
+LightGBM,0.8656,0.8671,"{'learning_rate': 0.020487682947185094, 'num_leaves': 15, 'n_estimators': 350, 'min_child_samples': 43, 'reg_alpha': 8.131377408721187, 'reg_lambda': 0.5264255193978957, 'scale_pos_weight': 13.961527500712453}"
+Random Forest,0.8636,0.8653,"{'n_estimators': 200, 'max_depth': 12, 'min_samples_split': 76, 'min_samples_leaf': 45, 'max_features': 'sqrt', 'class_weight': 'balanced'}"
+Decision Tree,0.8502,0.8525,"{'max_depth': 7, 'min_samples_split': 98, 'min_samples_leaf': 50, 'criterion': 'entropy', 'class_weight': 'balanced'}"
+Logistic Regression,0.8189,0.8226,"{'C': 0.06796788056943177, 'class_weight': 'balanced'}"
+Linear SVM,0.8166,0.8209,"{'C': 0.00010109247362464303, 'class_weight': 'balanced'}"
+MLP,0.8321,0.8344,"{'alpha': 0.00010374886356306705, 'learning_rate_init': 0.0020058755083587044, 'h_idx': 1, 'hidden_layer_sizes': (128, 64)}"

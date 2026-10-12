@@ -1,0 +1,27 @@
+=============================================================================
+COMPUTATIONAL ENVIRONMENT & REPRODUCIBILITY METADATA
+=============================================================================
+Operating System: Windows 10 (Build 26200, SP0, 64-bit AMD64)
+Python Version  : 3.11.9 (tags/v3.11.9:de54cf5, Apr 2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]
+CPU Architecture: 20 Logical Processors, 14 Physical Cores
+System Memory   : 15.71 GB Physical RAM
+
+Core Scientific Library Versions:
+  - scikit-learn : 1.9.1
+  - xgboost      : 3.2.0
+  - lightgbm     : 4.7.0
+  - optuna       : 5.0.0
+  - shap         : 0.51.0
+  - numpy        : 2.2.6
+  - pandas       : 2.2.3
+  - scipy        : 1.15.2
+  - matplotlib   : 3.10.1
+  - seaborn      : 0.13.2
+  - joblib       : 1.4.2
+
+Random Seeds & Partitions:
+  - Global Random Seed  : 42
+  - Train / Holdout Split: Stratified 70:30 (105,000 Train / 45,000 Test)
+  - Cross-Validation     : Stratified K-Fold (5 folds for Optuna, 10 folds for baseline CV)
+  - Bootstrap Iterations : 1,000 paired resamples
+=============================================================================

@@ -38,50 +38,61 @@ def train_and_evaluate_engineered():
     X_train, X_test, y_train, y_test = prepare_engineered_splits()
     scale_pos = (y_train == 0).sum() / (y_train == 1).sum()
 
-    # Models configuration matching the best hyperparameters
+    # Models configuration with Bayesian-informed parameters
     models = {
         "LightGBM (Engineered)": LGBMClassifier(
-            learning_rate=0.05,
-            num_leaves=31,
-            n_estimators=250,
-            subsample=0.8,
-            colsample_bytree=0.8,
-            is_unbalance=True,
+            learning_rate=0.0453,
+            num_leaves=14,
+            n_estimators=200,
+            subsample=0.9208,
+            colsample_bytree=0.5593,
+            min_child_samples=41,
+            reg_alpha=2.0195,
+            reg_lambda=7.8228,
+            scale_pos_weight=scale_pos,
             random_state=RANDOM_STATE,
             n_jobs=-1,
             verbose=-1,
         ),
         "XGBoost (Engineered)": XGBClassifier(
-            learning_rate=0.05,
-            max_depth=5,
+            learning_rate=0.0527,
+            max_depth=4,
             n_estimators=250,
-            subsample=0.8,
-            colsample_bytree=0.8,
+            subsample=0.7867,
+            colsample_bytree=0.6418,
+            min_child_weight=9,
+            gamma=0.8114,
+            reg_alpha=4.1148,
+            reg_lambda=8.0420,
             scale_pos_weight=scale_pos,
-            eval_metric="logloss",
+            eval_metric="auc",
+            use_label_encoder=False,
             random_state=RANDOM_STATE,
             n_jobs=-1,
+            verbosity=0,
         ),
         "Random Forest (Engineered)": RandomForestClassifier(
-            n_estimators=250,
-            max_depth=12,
-            min_samples_split=50,
-            min_samples_leaf=20,
+            n_estimators=300,
+            max_depth=11,
+            min_samples_split=91,
+            min_samples_leaf=29,
+            max_features="sqrt",
             class_weight="balanced",
             random_state=RANDOM_STATE,
             n_jobs=-1,
         ),
     }
 
-    # Baseline scores for comparison (10 features)
-    baseline_scores = {
-        "LightGBM": {"ROC_AUC": 0.8667, "Recall": 0.7852, "Precision": 0.2126, "F1": 0.3346, "Accuracy": 0.7912},
-        "XGBoost": {"ROC_AUC": 0.8664, "Recall": 0.7773, "Precision": 0.2149, "F1": 0.3367, "Accuracy": 0.7953},
-        "Random Forest": {"ROC_AUC": 0.8639, "Recall": 0.7656, "Precision": 0.2179, "F1": 0.3393, "Accuracy": 0.8007},
+    # Baseline scores are now the BAYESIAN OPTIMIZATION (Optuna TPE) baselines (10 raw features)
+    bayesian_baselines = {
+        "LightGBM": {"ROC_AUC": 0.8675, "Recall": 0.7776, "Precision": 0.2157, "F1": 0.3377, "Accuracy": 0.7962},
+        "XGBoost": {"ROC_AUC": 0.8673, "Recall": 0.7746, "Precision": 0.2169, "F1": 0.3389, "Accuracy": 0.7980},
+        "Random Forest": {"ROC_AUC": 0.8655, "Recall": 0.7726, "Precision": 0.2182, "F1": 0.3403, "Accuracy": 0.7998},
     }
 
     results = []
     roc_curves = {}
+    probs_dict = {}
 
     for name, model in models.items():
         base_name = name.split(" (")[0]
@@ -89,6 +100,7 @@ def train_and_evaluate_engineered():
         model.fit(X_train, y_train)
 
         y_prob = model.predict_proba(X_test)[:, 1]
+        probs_dict[base_name] = y_prob
         y_pred = (y_prob >= 0.5).astype(int)
 
         auc = roc_auc_score(y_test, y_prob)
@@ -100,21 +112,21 @@ def train_and_evaluate_engineered():
         fpr, tpr, _ = roc_curve(y_test, y_prob)
         roc_curves[name] = (fpr, tpr, auc)
 
-        base = baseline_scores[base_name]
+        base = bayesian_baselines[base_name]
         auc_delta = auc - base["ROC_AUC"]
 
         print(f"  Result for {name}:")
-        print(f"    ROC-AUC   : {auc:.4f}  (Baseline 10-feat: {base['ROC_AUC']:.4f}, Delta: {auc_delta:+.4f})")
-        print(f"    Recall    : {rec:.4f}  (Baseline: {base['Recall']:.4f})")
-        print(f"    Precision : {prec:.4f}  (Baseline: {base['Precision']:.4f})")
-        print(f"    F1-Score  : {f1:.4f}  (Baseline: {base['F1']:.4f})")
-        print(f"    Accuracy  : {acc:.4f}  (Baseline: {base['Accuracy']:.4f})")
+        print(f"    ROC-AUC   : {auc:.4f}  (Bayesian Baseline: {base['ROC_AUC']:.4f}, Delta: {auc_delta:+.4f})")
+        print(f"    Recall    : {rec:.4f}  (Bayesian Baseline: {base['Recall']:.4f})")
+        print(f"    Precision : {prec:.4f}  (Bayesian Baseline: {base['Precision']:.4f})")
+        print(f"    F1-Score  : {f1:.4f}  (Bayesian Baseline: {base['F1']:.4f})")
+        print(f"    Accuracy  : {acc:.4f}  (Bayesian Baseline: {base['Accuracy']:.4f})")
 
         results.append({
             "Model": name,
             "Baseline_Features": 10,
             "Engineered_Features": 18,
-            "Baseline_ROC_AUC": base["ROC_AUC"],
+            "Baseline_Bayesian_ROC_AUC": base["ROC_AUC"],
             "Engineered_ROC_AUC": round(auc, 4),
             "AUC_Improvement": round(auc_delta, 4),
             "Recall_Class1": round(rec, 4),

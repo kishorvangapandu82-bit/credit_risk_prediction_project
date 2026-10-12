@@ -1,2 +1,4 @@
 Model,Accuracy,Precision_Class1,Recall_Class1,F1_Class1,ROC_AUC
-MLP (Optuna),0.9363,0.5754,0.1802,0.2744,0.8339
+LightGBM (Optuna),0.7962,0.2157,0.7776,0.3377,0.8675
+XGBoost (Optuna),0.798,0.2169,0.7746,0.3389,0.8673
+Random Forest (Optuna),0.7998,0.2182,0.7726,0.3403,0.8655

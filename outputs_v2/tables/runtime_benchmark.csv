@@ -1,0 +1,8 @@
+Model,Training_Time_Sec,Inference_Time_Full_Test_Sec,Inference_Latency_ms_per_1k_Rows,Hardware_CPU_Cores,System_RAM_GB
+Logistic Regression,0.11,0.013,0.28,20,15.71
+Decision Tree,0.23,0.012,0.26,20,15.71
+SVM (Calibrated),0.26,0.018,0.39,20,15.71
+MLP Neural Network,3.08,0.026,0.57,20,15.71
+Random Forest,1.46,0.09,2.0,20,15.71
+XGBoost,0.39,0.026,0.57,20,15.71
+LightGBM,0.48,0.049,1.08,20,15.71

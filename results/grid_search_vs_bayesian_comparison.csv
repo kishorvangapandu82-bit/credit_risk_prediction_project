@@ -1,0 +1,6 @@
+Model,GridSearch_ROC_AUC,Bayesian_ROC_AUC,AUC_Gain,GridSearch_Recall,Bayesian_Recall,GridSearch_F1,Bayesian_F1,GridSearch_Accuracy,Bayesian_Accuracy,Winner
+LightGBM,0.8667,0.8675,0.0008,0.7852,0.7776,0.3346,0.3377,0.7912,0.7962,Bayesian Optimization
+XGBoost,0.8664,0.8673,0.0009,0.7773,0.7746,0.3367,0.3389,0.7953,0.798,Bayesian Optimization
+Random Forest,0.8639,0.8655,0.0016,0.7656,0.7726,0.3393,0.3403,0.8007,0.7998,Bayesian Optimization
+
+

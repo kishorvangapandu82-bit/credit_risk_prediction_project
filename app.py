@@ -309,6 +309,7 @@ elif page == "🌪️ Macroeconomic Stress Testing":
     debt_multiplier = 1.0 + (debt_spike / 100.0)
 
     st.info(f"⚡ **Simulated Shock Active**: Income Multiplier = `{income_multiplier:.2f}x` | Debt Ratio Multiplier = `{debt_multiplier:.2f}x`")
+    st.caption("💡 *Econometric Formulation*: Since DebtRatio = MonthlyDebt / MonthlyIncome, a 20% income contraction with sticky nominal debt obligations mechanically implies a 25% DebtRatio increase (1 / 0.80 = 1.25x). Setting a higher DebtRatio shock simulates additional monetary tightening / rate hike obligations.")
 
     img_stress = "plots/stress_test_impact.png"
     if os.path.exists(img_stress):

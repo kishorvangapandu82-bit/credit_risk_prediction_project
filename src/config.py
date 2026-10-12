@@ -1,4 +1,4 @@
-﻿"""
+"""
 =============================================================================
 CENTRAL CONFIGURATION
 =============================================================================
@@ -91,7 +91,17 @@ MLP_ACTIVATION = "relu"
 AUC_LEAKAGE_THRESHOLD = 0.90
 
 # ---------------------------------------------------------------------------
-# Stress test scenario
+# Macroeconomic Stress Test Scenario (Instantaneous Static Shock)
 # ---------------------------------------------------------------------------
-STRESS_INCOME_FACTOR   = 0.80   # MonthlyIncome * 0.80
-STRESS_DEBTRATIO_FACTOR = 1.25  # DebtRatio * 1.25  (derived from income drop)
+# Exogenous Shock: -20% contraction in borrower gross MonthlyIncome
+STRESS_INCOME_FACTOR = 0.80  # MonthlyIncome * 0.80 (-20% static shock)
+
+# Endogenous DebtRatio recomputation under constant nominal debt obligations:
+# Since DebtRatio = MonthlyDebt / MonthlyIncome, a -20% income reduction holding
+# nominal debt service constant mechanically scales DebtRatio by:
+# DebtRatio_stressed = MonthlyDebt / (0.80 * MonthlyIncome) = (1 / 0.80) * DebtRatio = 1.25 * DebtRatio.
+# Set STRESS_NOMINAL_DEBT_FACTOR = 1.00 for sticky debt (single income shock recomputed),
+# or > 1.00 if an additional independent interest rate/debt service shock is justified.
+STRESS_NOMINAL_DEBT_FACTOR = 1.00  # 1.00 = constant nominal debt obligations
+STRESS_DEBTRATIO_FACTOR    = STRESS_NOMINAL_DEBT_FACTOR / STRESS_INCOME_FACTOR  # 1.25 (+25%)
+

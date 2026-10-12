@@ -1,0 +1,2 @@
+Model,ROC_AUC,Gini,Recall,Precision,F1,Accuracy,Binning_Strategy,Weighting
+WOE Logistic Scorecard,0.828,0.6561,0.758,0.1791,0.2897,0.7516,8 Quantile Bins with Missing Category,balanced

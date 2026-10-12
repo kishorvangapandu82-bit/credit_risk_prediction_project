@@ -1,0 +1,8 @@
+Model,OOF_Best_F1,Optimal_F1_Threshold,Youden_J_Threshold
+LightGBM,0.4405,0.76,0.4837
+XGBoost,0.4382,0.79,0.4801
+Random Forest,0.4311,0.73,0.4451
+Decision Tree,0.4295,0.79,0.5179
+MLP,0.4229,0.23,0.0598
+Logistic Regression,0.4134,0.66,0.4585
+SVM,0.409,0.12,0.0647
